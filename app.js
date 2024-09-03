@@ -1,36 +1,11 @@
-const firstfile = require("./hello")
-const {ExtendedEventEmitter} = require("./hello")
-const http = require("http")
-// firstfile.hello();
-// console.log(firstfile.hello());
-// console.log(firstfile);
+const express = require('express');
+const app = express();
+app.use(express.json());
+const testroute = require('./route.js');
 
+app.use('/signin', testroute);
 
-//firstfile.emmitters();
+app.get('/' ,(req,res)=> res.send("hello"))
+app.listen(3000, () => console.log('Example app listening on port 3000!'));
 
-
-console.log(ExtendedEventEmitter)
-
-const emitter = new ExtendedEventEmitter();
-
-emitter.on('hello', (arg) => {
-    console.log("hello from event listener argument is : " + arg)
-
-})
-
-emitter.log('hello from event listener');
-console.log(firstfile)
-
-
-
-const server = http.createServer((req, res) => {
-    if (req.url === '/') {
-        res.write('Hell0');
-        res.end();
-    }
-})
-
-
-server.listen(2000)
-
-console.log("server listening on port" + 2000);
+app.get("*", (req, res) => res.status(404).send('404 error: page not found'))
